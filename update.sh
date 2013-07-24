@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd `dirname "$0"`
+
 START=`date +"%Y-%m-%d %H:%M:%S"`
 
 echo "`date +"%Y-%m-%d %H:%M:%S"` downloading files"
