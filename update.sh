@@ -32,4 +32,5 @@ sed "s/###TIME###/`date +'%d.%m.%Y %H:%M:%S'`/g" <view.html >../htdocs/index.htm
 
 echo "`date +"%Y-%m-%d %H:%M:%S"` sending mail"
 END=`date +"%Y-%m-%d %H:%M:%S"`
-echo "Tile-Rendering auf http://polar.openstreetmap.de/ startete um $START und endete um $END" | mail -s "http://polar.openstreetmap.de/" peter@mazdermind.de
+echo "Tile-Rendering auf http://polar.openstreetmap.de/ startete um $START und endete um $END" | mail -s "http://polar.openstreetmap.de/" sven-polar@geggus.net
+
