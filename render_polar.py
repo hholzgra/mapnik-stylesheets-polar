@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # render data from postgresql to an image or a pdf
 #
@@ -56,35 +56,35 @@ def main():
         type = options.type
     
     if options.size and options.zoom:
-        print "can't combine --size and --zoom"
-        print
+        print("can't combine --size and --zoom")
+        print()
         parser.print_help()
         sys.exit(1)
     
     if options.size:
         try:
-            (width, height) = map(int, options.size.split("x"))
-        except ValueError, err:
-            print "invalid syntax in size argument"
-            print
+            (width, height) = list(map(int, options.size.split("x")))
+        except ValueError as err:
+            print("invalid syntax in size argument")
+            print()
             parser.print_help()
             sys.exit(1)
     
     if options.bbox:
         try:
-            bbox = map(float, options.bbox.split(","))
+            bbox = list(map(float, options.bbox.split(",")))
             if len(bbox) < 4:
                 raise ValueError
-        except ValueError, err:
-            print "invalid syntax in bbox argument"
-            print
+        except ValueError as err:
+            print("invalid syntax in bbox argument")
+            print()
             parser.print_help()
             sys.exit(1)
     
     if options.zoom:
         (width, height) = zoom2size(bbox, options.zoom);
     
-    print "rendering bbox %s in style %s to file %s which is of type %s in size %ux%u\n" % (bbox, style, file, type, width, height)
+    print("rendering bbox %s in style %s to file %s which is of type %s in size %ux%u\n" % (bbox, style, file, type, width, height))
     
     # create map
     m = mapnik.Map(width,height)
@@ -127,8 +127,8 @@ def main():
         s = cairo.PSSurface(file, width, height)
     
     else:
-        print "invalid image type"
-        print
+        print("invalid image type")
+        print()
         parser.print_help()
         sys.exit(1)
     

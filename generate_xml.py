@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import re
@@ -47,7 +47,7 @@ class Params:
                 d[p] = os.environ[env_var_name]
 
             # then assign any reasonable default values...
-            elif p in REASONABLE_DEFAULTS.keys():
+            elif p in list(REASONABLE_DEFAULTS.keys()):
                 d[p] = REASONABLE_DEFAULTS[p]
             # if --accept-none is passed then we assume
             # its a paramater that mapnik likely does not need
@@ -82,7 +82,7 @@ def serialize(xml,options):
         mapnik.save_map(m,options.output)
     else:
         if hasattr(mapnik,'mapnik_version') and mapnik.mapnik_version() >= 700:
-            print mapnik.save_map_to_string(m)
+            print(mapnik.save_map_to_string(m))
         else:
             sys.exit(color_text(1,'Minor error: printing XML to stdout requires Mapnik >=0.7.0, please provide a second argument to save the output to a file'))
 
@@ -178,7 +178,7 @@ if __name__ == '__main__':
         new_file = file(new_name,'wb')
         try:
             new_file.write(template.read() % blended)
-        except ValueError, e:
+        except ValueError as e:
             parser.error(color_text(1,"\n%s (found in %s)" % (e,xml)))
         template.close()
         new_file.close()
@@ -203,4 +203,4 @@ if __name__ == '__main__':
     if template_xml:
         serialize(template_xml,options)
     else:
-        print 'Include files written successfully! Pass the osm.xml file as an argument if you want to serialize a new version or test reading the XML'
+        print('Include files written successfully! Pass the osm.xml file as an argument if you want to serialize a new version or test reading the XML')

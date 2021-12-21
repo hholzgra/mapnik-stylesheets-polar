@@ -1,11 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # render data from postgresql to an tiles in an polar projection
 #
 
 from optparse import OptionParser
 import sys, os, multiprocessing
-import Queue
+import queue
 
 try:
     import mapnik
@@ -25,8 +25,8 @@ def main():
     type = "png"
     scale = 6000000
     minzoom = 1
-    maxzoom = 6
-    threads = 1
+    maxzoom = 11
+    threads = 32 
     context = 3
     
     parser = OptionParser()
@@ -93,7 +93,7 @@ def main():
     lock = multiprocessing.Lock()
 
     renderers = {}
-    print "Starting %u render-threads" % (threads)
+    print("Starting %u render-threads" % (threads))
     for i in range(threads):
         renderer = RenderThread(i, queue, style, scale, dir, type, lock)
         render_thread = multiprocessing.Process(target=renderer.run)
@@ -129,14 +129,14 @@ def main():
         cur = con.cursor()
         cur.execute(sql)
         lock.acquire()
-        print "found %u interesting nodes" % (cur.rowcount)
+        print("found %u interesting nodes" % (cur.rowcount))
         lock.release()
         i = 0
         for record in cur:
             (obj_type, osm_id, name, lat, lng, xmeter, ymeter) = record
             lock.acquire()
             i += 1
-            print "found interesting %s %u of %u: #%u (%s)" % (obj_type, i, cur.rowcount, osm_id, name)
+            print("found interesting %s %u of %u: #%u (%s)" % (obj_type, i, cur.rowcount, osm_id, name))
             lock.release()
             if(options.listfile):
                 features += ({
@@ -207,12 +207,12 @@ class RenderThread:
         self.lock = lock
         self.style = style
         self.lock.acquire()
-        print "Thread #%u created" % (threadnum)
+        print("Thread #%u created" % (threadnum))
         self.lock.release()
 
     def run(self):
         self.lock.acquire()
-        print "Thread #%u started" % (self.threadnum)
+        print("Thread #%u started" % (self.threadnum))
         self.lock.release()
 
         m = mapnik.Map(256,256)
@@ -226,7 +226,7 @@ class RenderThread:
             if (r == None):
                 self.queue.task_done()
                 self.lock.acquire()
-                print "Thread #%u: closing" % (self.threadnum)
+                print("Thread #%u: closing" % (self.threadnum))
                 self.lock.release()
                 break
             else:
@@ -254,14 +254,14 @@ def render_tile(m, z, x, y, scale, dir, type, lock=None, threadnum=None):
 
     if lock:
         lock.acquire()
-        print "Thread #%u: z=%u x=%u y=%u -> (%f,%f,%f,%f)" % (threadnum, z, x, y, bbox[0], bbox[1], bbox[2], bbox[3])
+        print("Thread #%2u: z=%u x=%u y=%u -> (%f,%f,%f,%f)" % (threadnum, z, x, y, bbox[0], bbox[1], bbox[2], bbox[3]))
         if not os.path.exists(pdir):
             os.makedirs(pdir)
         lock.release()
     else:
         if not os.path.exists(pdir):
             os.makedirs(pdir)
-        print "z=%u x=%u y=%u -> (%f,%f,%f,%f)" % (z, x, y, bbox[0], bbox[1], bbox[2], bbox[3])
+        print("z=%u x=%u y=%u -> (%f,%f,%f,%f)" % (z, x, y, bbox[0], bbox[1], bbox[2], bbox[3]))
 
     if mapnik.Box2d:
         e = mapnik.Box2d(*bbox)
