@@ -44,7 +44,7 @@ Coastline Shapefiles
 
 Antarctica data in PostGIS
  * An Antarctica-extract
-   - http://download.geofabrik.de/openstreetmap/antarctica.osm.pbf
+   - https://download.geofabrik.de/antarctica-latest.osm.pbf
  * Import this into PostGIS with osm2pgsql
 
 
@@ -56,8 +56,8 @@ Quickstart
     cd mapnik-stylesheets-polar
     ./get-coastlines.sh
     ./generate_xml.py --epsg 4326 --extent -180,-90,180,90 --dbname=$USER --prefix ant --accept-none
-    wget http://download.geofabrik.de/openstreetmap/antarctica.osm.pbf
-    osm2pgsql --create --cache 1024 --database $USER --prefix ant --latlong antarctica.osm.pbf
+    wget https://download.geofabrik.de/antarctica-latest.osm.pbf
+    osm2pgsql --create --cache 1024 --database $USER --prefix ant --latlong antarctica-latest.osm.pbf
     
     # render an image
     ./render_polar.py --style osm.xml --bbox -3000000,0,0,3000000 --file top-left --size 500x500

@@ -5,8 +5,8 @@ cd `dirname "$0"`
 START=`date +"%Y-%m-%d %H:%M:%S"`
 
 echo "`date +"%Y-%m-%d %H:%M:%S"` downloading files"
-wget -nv http://download.geofabrik.de/antarctica-latest.osm.pbf -O data/antarctica-latest.osm.pbf
-wget -nv http://data.openstreetmapdata.com/land-polygons-complete-4326.zip -O data/land-polygons-complete-4326.zip
+wget -nv https://download.geofabrik.de/antarctica-latest.osm.pbf -O data/antarctica-latest.osm.pbf
+wget -nv https://osmdata.openstreetmap.de/download/land-polygons-complete-4326.zip -O data/land-polygons-complete-4326.zip
 wget -nv http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_populated_places.zip -O data/ne_10m_populated_places.zip
 wget -nv http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_boundary_lines_land.zip -O data/ne_110m_admin_0_boundary_lines_land.zip
 
